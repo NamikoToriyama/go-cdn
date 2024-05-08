@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"strconv"
 	"strings"
@@ -84,10 +85,10 @@ type TagImage struct {
 	ImageId int64 `db:"image_id"`
 }
 
-func connectMysql() {
+func ConnectMysql() {
 	db, err := sql.Open(
 		"mymysql",
-		"tcp:"+os.Getenv("_MYSQL_HOST")+":"+os.Getenv("_MYSQL_PORT")+"*"+os.Getenv("_MYSQL_DB")+"/"+os.Getenv("_MYSQL_USER")+"/"+os.Getenv("_MYSQL_PASS"))
+		fmt.Sprintf("tcp:%v:%v*%v/%v/%v", MYSQL_HOST, MYSQL_PORT, MYSQL_DB, MYSQL_USER, MYSQL_PASS))
 	if err != nil {
 		panic(err)
 	}

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"os"
 	"time"
 
 	"github.com/gin-contrib/cache"
@@ -10,15 +9,20 @@ import (
 )
 
 var (
-	BASE_IMAGE_FOLDER = os.Getenv("_BASE_IMAGE_FOLDER")
+	BASE_IMAGE_FOLDER = "img/"
 	IMAGE_SUFFIX      = ".jpg"
-	ENCRYPTION_KEY    = os.Getenv("_ENCRYPTION_KEY")
-	HOST              = os.Getenv("_HOST")
-	BASE_URL          = os.Getenv("_BASE_URL")
+	ENCRYPTION_KEY    = "TESTKEY"
+	HOST              = "0.0.0.0:8080"
+	BASE_URL          = "http://localhost:8080/"
+	MYSQL_HOST        = "127.0.0.1"
+	MYSQL_PORT        = "3306"   //`#mysql config`
+	MYSQL_DB          = "go_cdn" //`#mysql config`
+	MYSQL_USER        = "root"   //`#mysql config`
+	MYSQL_PASS        = "root"   //`#mysql config`
 )
 
 func main() {
-	connectMysql()
+	ConnectMysql()
 	router := gin.Default()
 
 	store := persistence.NewInMemoryStore(time.Second)

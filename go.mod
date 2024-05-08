@@ -43,7 +43,7 @@ require (
 	golang.org/x/sys v0.20.0 // indirect
 	golang.org/x/text v0.15.0 // indirect
 	google.golang.org/protobuf v1.34.1 // indirect
-	gopkg.in/gographics/imagick.v2 v2.6.4
+	gopkg.in/gographics/imagick.v3 v3.5.3
 	gopkg.in/gorp.v1 v1.7.2
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

@@ -7,7 +7,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"gopkg.in/gographics/imagick.v2/imagick"
+	"gopkg.in/gographics/imagick.v3/imagick"
 )
 
 func showImage(c *gin.Context, filename string) {
@@ -77,5 +77,5 @@ func (img *Image) resize(width int, height int) {
 		width = o_width * height / o_height
 	}
 
-	img.image.ResizeImage(uint(width), uint(height), imagick.FILTER_BOX, 1)
+	img.image.ResizeImage(uint(width), uint(height), imagick.FILTER_BOX)
 }
