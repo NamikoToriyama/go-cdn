@@ -1,12 +1,13 @@
 package main
 
 import (
-	"os"
-	"log"
-	"gopkg.in/gin-gonic/gin.v1"
-	"gopkg.in/gographics/imagick.v2/imagick"
-	"strconv"
 	"fmt"
+	"log"
+	"os"
+	"strconv"
+
+	"github.com/gin-gonic/gin"
+	"gopkg.in/gographics/imagick.v2/imagick"
 )
 
 func showImage(c *gin.Context, filename string) {
@@ -26,7 +27,6 @@ func showImage(c *gin.Context, filename string) {
 	int_height, _ := strconv.Atoi(height)
 	img.resize(int_width, int_height)
 
-
 	c.Writer.Header().Set("Content-Type", "image/jpeg") // <-- set the content-type header
 	c.Writer.Write(img.render())
 }
@@ -38,7 +38,7 @@ type Image struct {
 }
 
 func openImage(path string) (Image, error) {
-	img := Image{path:path, image:imagick.NewMagickWand()}
+	img := Image{path: path, image: imagick.NewMagickWand()}
 	return img, img.load()
 }
 
@@ -70,14 +70,12 @@ func (img *Image) resize(width int, height int) {
 	}
 
 	if height == 0 {
-		height = o_height*width/o_width
+		height = o_height * width / o_width
 	}
 
 	if width == 0 {
-		width = o_width*height/o_height
+		width = o_width * height / o_height
 	}
 
 	img.image.ResizeImage(uint(width), uint(height), imagick.FILTER_BOX, 1)
 }
-
-

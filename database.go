@@ -1,12 +1,14 @@
 package main
 
 import (
-	"database/sql"
-	"gopkg.in/gorp.v1"
 	"os"
-	_ "github.com/ziutek/mymysql/godrv"
 	"strconv"
 	"strings"
+
+	"database/sql"
+
+	_ "github.com/ziutek/mymysql/godrv"
+	"gopkg.in/gorp.v1"
 )
 
 var (
@@ -14,11 +16,11 @@ var (
 )
 
 type Group struct {
-	Id   int64 `db:"id"`
+	Id   int64  `db:"id"`
 	Name string `db:"name"`
 }
 
-func (group *Group) firstOrCreate() *Group{
+func (group *Group) firstOrCreate() *Group {
 	err := dbmap.SelectOne(group, "select * from groups where name=?", group.Name)
 	if checkErr(err) {
 		dbmap.Insert(group)
@@ -27,10 +29,10 @@ func (group *Group) firstOrCreate() *Group{
 }
 
 type ImageDb struct {
-	Id            int64 `db:"id"`
+	Id            int64  `db:"id"`
 	Path          string `db:"path"`
 	EncryptedPath string `db:"encrypted_path"`
-	GroupId       int64 `db:"group_id"`
+	GroupId       int64  `db:"group_id"`
 }
 
 func (img *ImageDb) CreateHash() {
@@ -46,17 +48,17 @@ func (img *ImageDb) MakePath() {
 	img.Path = makeAddress(strconv.FormatInt(img.Id, 10))
 }
 
-func (img *ImageDb) GetUrlAddress() string{
+func (img *ImageDb) GetUrlAddress() string {
 	return BASE_URL + "images/" + img.EncryptedPath + ".jpg"
 }
 
-func (img *ImageDb) AddTags(tags []*Tag)  {
+func (img *ImageDb) AddTags(tags []*Tag) {
 	for _, tag := range tags {
-		dbmap.Insert(&TagImage{TagId:tag.Id, ImageId:img.Id})
+		dbmap.Insert(&TagImage{TagId: tag.Id, ImageId: img.Id})
 	}
 }
 
-func (img *ImageDb)PostInsert(s gorp.SqlExecutor) error {
+func (img *ImageDb) PostInsert(s gorp.SqlExecutor) error {
 	img.CreateHash()
 	img.MakePath()
 	dbmap.Update(img)
@@ -64,8 +66,8 @@ func (img *ImageDb)PostInsert(s gorp.SqlExecutor) error {
 }
 
 type Tag struct {
-	Id   int64   `db:"id"`
-	Name string  `db:"name"`
+	Id   int64  `db:"id"`
+	Name string `db:"name"`
 }
 
 func (tag *Tag) firstOrCreate() *Tag {
@@ -77,7 +79,7 @@ func (tag *Tag) firstOrCreate() *Tag {
 }
 
 type TagImage struct {
-	Id      int64   `db:"id"`
+	Id      int64 `db:"id"`
 	TagId   int64 `db:"tag_id"`
 	ImageId int64 `db:"image_id"`
 }
@@ -85,7 +87,7 @@ type TagImage struct {
 func connectMysql() {
 	db, err := sql.Open(
 		"mymysql",
-		"tcp:" + os.Getenv("_MYSQL_HOST") + ":" + os.Getenv("_MYSQL_PORT") + "*" + os.Getenv("_MYSQL_DB") + "/" + os.Getenv("_MYSQL_USER") + "/" + os.Getenv("_MYSQL_PASS"))
+		"tcp:"+os.Getenv("_MYSQL_HOST")+":"+os.Getenv("_MYSQL_PORT")+"*"+os.Getenv("_MYSQL_DB")+"/"+os.Getenv("_MYSQL_USER")+"/"+os.Getenv("_MYSQL_PASS"))
 	if err != nil {
 		panic(err)
 	}

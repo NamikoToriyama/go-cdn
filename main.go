@@ -1,19 +1,20 @@
 package main
 
 import (
-	"gopkg.in/gin-gonic/gin.v1"
 	"os"
-	"github.com/gin-contrib/cache/persistence"
 	"time"
+
 	"github.com/gin-contrib/cache"
+	"github.com/gin-contrib/cache/persistence"
+	"github.com/gin-gonic/gin"
 )
 
 var (
 	BASE_IMAGE_FOLDER = os.Getenv("_BASE_IMAGE_FOLDER")
-	IMAGE_SUFFIX = ".jpg"
-	ENCRYPTION_KEY = os.Getenv("_ENCRYPTION_KEY")
-	HOST = os.Getenv("_HOST")
-	BASE_URL = os.Getenv("_BASE_URL")
+	IMAGE_SUFFIX      = ".jpg"
+	ENCRYPTION_KEY    = os.Getenv("_ENCRYPTION_KEY")
+	HOST              = os.Getenv("_HOST")
+	BASE_URL          = os.Getenv("_BASE_URL")
 )
 
 func main() {
@@ -28,4 +29,3 @@ func main() {
 
 	router.Run(HOST)
 }
-

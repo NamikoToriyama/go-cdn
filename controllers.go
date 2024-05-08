@@ -1,18 +1,19 @@
 package main
 
 import (
-	"strings"
-	"os"
-	"gopkg.in/gin-gonic/gin.v1"
-	"net/http"
 	"io"
+	"net/http"
+	"os"
+	"strings"
+
+	"github.com/gin-gonic/gin"
 )
 
 func serveImage(c *gin.Context) {
 	name := c.Param("image")
 	image_id_encrypted := strings.Split(name, ".")[0]
 
-	image_id, err := decrypt(image_id_encrypted);
+	image_id, err := decrypt(image_id_encrypted)
 	if err != nil {
 		c.String(http.StatusOK, "The requestd file not exist! (%s) - ERROR 1", name)
 		return
@@ -39,14 +40,14 @@ func upload(c *gin.Context) {
 
 	insert_tags := []*Tag{}
 	for _, tag := range tags {
-		temp := &Tag{Name:tag}
+		temp := &Tag{Name: tag}
 		insert_tags = append(insert_tags, temp.firstOrCreate())
 	}
 
-	insert_group := &Group{Name:group}
+	insert_group := &Group{Name: group}
 	insert_group.firstOrCreate()
 
-	insert_image := &ImageDb{GroupId:insert_group.Id}
+	insert_image := &ImageDb{GroupId: insert_group.Id}
 	dbmap.Insert(insert_image)
 
 	insert_image.AddTags(insert_tags)
@@ -66,9 +67,9 @@ func upload(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"encrypted_id" : insert_image.EncryptedPath,
+		"encrypted_id": insert_image.EncryptedPath,
 		"file_address": insert_image.GetUrlAddress(),
-		"tags": gin_tags,
-		"group": gin.H{"name":group},
+		"tags":         gin_tags,
+		"group":        gin.H{"name": group},
 	})
 }
