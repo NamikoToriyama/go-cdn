@@ -18,6 +18,25 @@ This utility can be used as stand alone Content Delivery Network, using Mysql as
    - _ENCRYPTION_KEY=TESTKEY `#encrypt image id with this key`
    - _BASE_IMAGE_FOLDER=/your/image/store/path `#save images to this folder`
    
+# Diagram
+```mermaid
+sequenceDiagram
+   actor u as User
+   participant p as Application
+   participant ap as Cache
+   participant db as Database
+
+   u ->>+ p: Request images/image
+   p ->>+ ap: Request<br />Image
+   ap ->>- p: Response
+   opt Not Found
+      p ->> db: get Image
+      db ->> ap: cache Image
+      db ->> p: Response
+      p ->> u: Response
+   end
+
+```
 
 # dependencies
 
