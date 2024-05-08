@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"strconv"
 	"strings"
@@ -104,7 +105,7 @@ func ConnectMysql() {
 
 func checkErr(err error) bool {
 	if err != nil {
-		//log.Fatalln(msg, err)
+		log.Fatalln("get error", err)
 		return true
 	}
 	return false
